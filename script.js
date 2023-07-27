@@ -82,3 +82,36 @@
 // (приклад однієї картки https://prnt.sc/ssZA4rzw1x9L)
 // 2 Повідомлення про загальну вартість покупки, якщо кошик порожній, то повідомлення "Your basket is empty"
 // 3 Кнопку для очищення кошика, після натискання на неї всі товари видаляються, а користувача перенаправляємо на сторінку Home
+
+import { createMarkup } from "./templates/product.js";
+import instruments from "./products.json" assert { type: "json" };
+
+const refs = {
+  productsList: document.getElementById("productsList"),
+};
+
+const PRODUCTS_LS_KEY = "checkout";
+
+refs.productsList.insertAdjacentHTML("beforeend", createMarkup(instruments));
+refs.productsList.addEventListener("click", handleAdd);
+
+function handleAdd(event) {
+  if (event.target.id !== "addBtn") {
+    return;
+  }
+
+  const product = event.target.closest("#product");
+  const productId = Number(product.dataset.id);
+  const currentProduct = instruments.find(({ id }) => id === productId);
+  const products = JSON.parse(localStorage.getItem(PRODUCTS_LS_KEY)) ?? [];
+  const checkoutProductId = products.findIndex(({ id }) => id === productId);
+
+  if (checkoutProductId === -1) {
+    currentProduct.quantity = 1;
+    products.push(currentProduct);
+  } else {
+    products[checkoutProductId].quantity += 1;
+  }
+
+  localStorage.setItem(PRODUCTS_LS_KEY, JSON.stringify(products));
+}
