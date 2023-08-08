@@ -11,12 +11,27 @@
 
 // *********Fetch********* \\
 
+// fetch("https://rickandmortyapi.com/api/character")
+//   .then((res) => res.json())
+//   .then((res) => console.log(res));
+
 // *********Обробка помилок та парсинг відповіді********* \\
+
+// fetch("https://rickandmortyapi.com/api/character3")
+//   .then((res) => {
+//     console.log(res);
+//     if (!res.ok) {
+//       throw new Error("Примусово закидуємо значення у catch");
+//     }
+//     return res.json();
+//   })
+//   .then((res) => console.log(res))
+//   .catch((err) => console.error(err));
 
 // ***************Практика*************** \\
 
 // Потрібно створити функціонал для отримання прогнозу погоди в місті.
-// Використай публічне API https://www.weatherapi.com/docs/
+// Використай приватне API https://www.weatherapi.com/docs/
 // Використовуй ендпоінт Forecast для того, щоб отримати прогноз погоди на декілька днів.
 
 // Створи форму в яку користувач:
@@ -30,3 +45,27 @@
 // 2 Текст з погодою (text)
 // 3 Дату (date)
 // 4 Середню температуру в Цельсія (avgtemp_c)
+
+function serviceWeather(city, days) {
+  const FORECAST_URL = "http://api.weatherapi.com/v1/forecast.json";
+  const API_KEY = "66f9e81543404d02beb160521230808";
+
+  const params = new URLSearchParams({
+    key: API_KEY,
+    q: city,
+    days,
+    lang: "uk",
+  });
+
+  return fetch(`${FORECAST_URL}?${params}`).then((res) => {
+    console.log(res)
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    return res.json();
+  });
+}
+
+serviceWeather("Kiev", 3)
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
