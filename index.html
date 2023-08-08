@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <form action="submit" class="js-search-form search-form">
+    <form action="submit" class="js-search-form search-form" id="searchForm">
       <div class="form-group">
         <label for="city" class="label">Введіть назву міста:</label>
         <input type="text" name="city" class="search-input" required />
@@ -25,7 +25,7 @@
         </div>
       </div>
     </form>
-    <ul class="js-list weather-cards"></ul>
+    <ul class="js-list weather-cards" id="list"></ul>
 
     <script src="script.js"></script>
   </body>

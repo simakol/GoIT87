@@ -46,6 +46,26 @@
 // 3 Дату (date)
 // 4 Середню температуру в Цельсія (avgtemp_c)
 
+const refs = {
+  searchForm: document.getElementById("searchForm"),
+  list: document.getElementById("list"),
+};
+
+refs.searchForm.addEventListener("submit", searchWeater);
+
+function searchWeater(e) {
+  e.preventDefault();
+
+  const { city, days } = e.currentTarget.elements;
+  // const city = refs.searchForm.elements.city
+
+  serviceWeather(city.value, days.value)
+    .then((data) => {
+      refs.list.innerHTML = createMarkup(data.forecast.forecastday);
+    })
+    .catch((err) => console.error(err));
+}
+
 function serviceWeather(city, days) {
   const FORECAST_URL = "http://api.weatherapi.com/v1/forecast.json";
   const API_KEY = "66f9e81543404d02beb160521230808";
@@ -58,7 +78,6 @@ function serviceWeather(city, days) {
   });
 
   return fetch(`${FORECAST_URL}?${params}`).then((res) => {
-    console.log(res)
     if (!res.ok) {
       throw new Error(res.statusText);
     }
@@ -66,6 +85,21 @@ function serviceWeather(city, days) {
   });
 }
 
-serviceWeather("Kiev", 3)
-  .then((data) => console.log(data))
-  .catch((err) => console.error(err));
+function createMarkup(arr) {
+  return arr
+    .map(
+      ({
+        date,
+        day: {
+          avgtemp_c,
+          condition: { text, icon },
+        },
+      }) => `<li class="weather-card">
+      <img src="${icon}" alt="${text}" class="weather-icon">
+      <h2 class="date">${date}</h2>
+      <h3 class="weather-text">${text}</h3>
+      <h3 class="temperature">${avgtemp_c} °C</h3>
+  </li>`
+    )
+    .join("");
+}
