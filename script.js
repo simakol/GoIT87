@@ -1,21 +1,71 @@
 // ***************** Конструкція async await ***************** \\
+//! FETCH
+// function serviceCountry() {
+//   const URL = "https://restcountries.com/v3.1/name/Ukraine";
+//   return fetch(URL)
+//     .then((resp) => {
+//       if (!resp.ok) {
+//         throw new Error(resp.statusText);
+//       }
+//       return resp.json();
+//     })
+//     .then(console.log);
+// }
 
+// serviceCountry().catch(console.log);
 
-// ***************** Асинхрона функція завжди поверне проміс ***************** \\
+//! AXIOS
+// function serviceCountry() {
+//   const URL = "https://restcountries.com/v3.1/name/Ukraine";
+//   return axios.get(URL);
+// }
 
-// *****************Асинхронною функціює може бути будь який різновид функції ***************** \\
+// serviceCountry()
+//   .then(({ data }) => console.log(data))
+//   .catch((err) => console.log("ERROR AXIOS:", err));
 
-// ****** Arrow function ****** \\
+//! ASYNC FETCH
+// async function serviceCountry() {
+//   const URL = "https://restcountries.com/v3.1/name/Ukraine";
+//   try {
+//     const resp = await fetch(URL);
 
-// ****** Function expression ****** \\
+//     if (!resp.ok) {
+//       throw new Error(resp.statusText);
+//     }
+//     const data = await resp.json();
+//     console.log(data);
 
-// ****** Object method ****** \\
+//     return data;
+//   } catch (err) {
+//     console.log("TRY-CATCH:", err);
+//   }
+// }
 
-// ************ Обробка за допомогою then та catch ************ \\
+// serviceCountry();
 
-// ************ Обробка за допомогою try та catch ************ \\
+//! ASYNC AXIOS
+// async function serviceCountry() {
+//   const URL = "https://restcountries.com/v3.1/name/Ukraine5";
+//   try {
+//     const { data } = await axios.get(URL);
+//     console.log(data);
+//     return data;
+//   } catch (err) {
+//     console.log("TRY-CATCH:", err);
+//   }
+// }
 
-// // ************ Паралельні та послідовні запити ************ \\
+// serviceCountry();
+
+/*
+1. async робить будь-яку функцію асинхронною. Це означає, що ця функція в будь-якому випадку поверне проміс
+2. Асинхронна функція дозволяє використовувати всередині себе оператор await.
+3. Оператор await пишеться перед асинхронною операцією і заморожує виконання усієї функції до тих пір, поки проміс не перейде у стан fullfilled або rejected. Тільки після цього функція може продовжити своє виконання.
+4.Await завжди повертає результат промісу.
+5. Асинхронні функції та оператор await потрібен нам для того щоб робити імітацію синхронного коду всередині асинхронного.
+
+*/
 
 // *********** Послідовні *********** \\
 
